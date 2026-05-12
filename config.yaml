@@ -1,0 +1,69 @@
+df_id: df-souveraene-maschine-writer
+df_name: Buecher-Trilogie-Souveraene-Maschine
+welle_introduced: welle-44
+type: foundation-df
+crux-mk: true
+k0_touch: false
+q0_touch: false
+phronesis_required: false
+cascade_isolation: hard
+failure_blast_radius: 1
+dependency_dlq_strategy: separate
+output_feeds_into_training: false
+provenance_required_in_output: true
+non_llm_validation_layer: true
+external_anchor_type: drive_filesystem
+external_anchor_validation_frequency: per-run
+pre_action_domain_check: true
+pre_action_backup_check: false
+pre_action_blast_radius_check: true
+override_complexity: single_command
+override_documentation_freshness_days: 30
+martin_review_cadence: monthly
+bus_factor_handover_drilled: false
+entropy_added_loc_estimate: 800
+entropy_added_concepts: [chapter-generator-stub, outline-manager-fixed, style-guide-philosophical]
+entropy_justified_by_rho: high
+entropy_subtractive_potential: false
+concurrent_spawn_protection: both
+lock_dir: /tmp/df-souveraene-maschine-writer.lock
+lock_stale_age_h: 6
+engine_pgrep_check: true
+lock_release_on: EXIT_INT_TERM
+pipeline_cost_estimate_required: true
+cost_estimate_method: static_pre_run
+quota_budget_ceiling: 5
+cost_overrun_action: warn
+lose_coupling:
+  LC1_graceful_degradation:
+    degradation_modes: [full, degraded_no_llm, sandbox_mock]
+    degradation_test_required: true
+  LC2_direct_mode:
+    direct_mode_available: true
+    direct_mode_capability: 0.5
+    direct_mode_trigger: "real-llm-api unreachable >60s OR ENV not set"
+  LC3_circuit_breaker:
+    circuit_breaker_timeout_s: 60
+    circuit_breaker_open_threshold: 3
+    circuit_breaker_half_open_test_interval_s: 600
+  LC4_failure_isolation:
+    state_externalization: true
+    idempotent_operations: true
+    dependency_dlq_separate: true
+  LC5_health_check:
+    health_check_dependencies: []
+    health_check_degraded_score: 0.5
+    health_check_endpoint_or_file: "branch-hub/state/df-souveraene-maschine-writer-health.json"
+env_vars:
+  DF_BOOK_REAL_ENABLED:
+    default: "false"
+    activation: "phronesis_ticket_required"
+  PHRONESIS_TICKET:
+    default: ""
+    required_when: "DF_BOOK_REAL_ENABLED=true"
+book_metadata:
+  title: "Die Souveraene Maschine"
+  subtitle: "K_0-AI als Souveraenitaets-Werkzeug"
+  chapters_count: 10
+  style_guide: philosophical_with_practice
+  target_words_per_chapter: 7000
